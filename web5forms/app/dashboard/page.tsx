@@ -1,9 +1,15 @@
+import LandingContent from '@/components/cardshistory'
+import { Button } from '@/components/ui/button'
 import React from 'react'
 
-function page() {
+
+function Dashboard() {
   return (
-    <div>page</div>
+    <div className='flex flex-col my-[5rem] justify-center items-center'>
+      <LandingContent />
+
+    </div>
   )
 }
 
-export default page
+export default Dashboard

@@ -1,9 +1,11 @@
-import Image from 'next/image'
+import {LandingHero} from '../components/landinghero';
+import { LandingNavBar } from '../components/landingnavbar';
 
 export default function Home() {
   return (
-    <>
-    page
-    </>
+     <div className="h-full">
+         <LandingNavBar />
+         <LandingHero />
+      </div>
   )
 }
