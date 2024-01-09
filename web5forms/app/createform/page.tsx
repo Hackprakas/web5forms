@@ -8,6 +8,18 @@ export default function Home() {
     setQuestions([...questions, { typess, text: '', label }]);
   };
 
+  const [options, setOptions] = useState(['']); 
+
+  const handleAddOption = () => {
+    setOptions([...options, '']); // Add a new empty option
+  };
+
+  const handleOptionChange = (index: number, value: string) => {
+    const newOptions = [...options];
+    newOptions[index] = value;
+    setOptions(newOptions);
+  };
+
   return (
     <div>
       <form className="max-w-sm mx-auto">
@@ -39,68 +51,79 @@ export default function Home() {
             )}
             {question.typess === 'multipleChoice' && (
               <fieldset>
-                <legend className="sr-only">Options</legend>
-                {/* Assuming question.label contains options separated by commas */}
-                {question.label.split(',').map((option, optionIndex) => (
-                  <div key={optionIndex} className="flex items-center mb-4">
-                    <input
-                      id={`option-${index}-${optionIndex}`}
-                      type="radio"
-                      name={`options-${index}`}
-                      value={option}
-                      className="w-4 h-4 border-gray-300 focus:ring-2 focus:ring-blue-300 dark:focus:ring-blue-600 dark:focus:bg-blue-600 dark:bg-gray-700 dark:border-gray-600"
-                      checked={optionIndex === 0} // Assuming you want the first option to be checked by default
-                    />
-                    <label
-                      htmlFor={`option-${index}-${optionIndex}`}
-                      className="block ms-2 text-sm font-medium text-gray-900 dark:text-gray-300"
-                    >
-                      {question.label}
-                    </label>
-                  </div>
-                ))}
+                <div>
+                  <label htmlFor={question.label}>{question.label}</label><br />
+
+                  {/* Render radio options dynamically */}
+                  {options.map((option, index) => (
+                    <div key={index}>
+                      <input
+                        type="radio"
+                        id={`${question.label}_option${index + 1}`}
+                        name={question.label}
+                        value={`option${index + 1}`}
+                        checked={index === 0} // Check the first option by default
+                      />
+                      <label htmlFor={`${question.label}_option${index + 1}`}>
+                        <input
+                          type="text"
+                          placeholder={`Option ${index + 1}`}
+                          value={option}
+                          onChange={(e) => handleOptionChange(index, e.target.value)}
+                        />
+                      </label>
+                      <br />
+                    </div>
+                  ))}
+
+                  {/* Add option button */}
+                  <button type="button" onClick={handleAddOption}>
+                    Add Option
+                  </button>
+                </div>
               </fieldset>
             )}
+
           </div>
         ))}
 
         <div className="mb-5">
-        <button
-  type="button"
-  onClick={() => {
-    const label = prompt('Enter label name for paragraph question');
-    if (label !== null) {
-      addQuestion('paragraph', label);
-    }
-  }}
-  className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
->
-  Add small para Question
-</button>
-<button
-  type="button"
-  onClick={() => {
-    const label = prompt('Enter label name for large para question');
-    if (label !== null) {
-      addQuestion('largepara', label);
-    }
-  }}
-  className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
->
-  Add large para Question
-</button>
-<button
-  type="button"
-  onClick={() => {
-    const label = prompt('Enter label name for multiple choice question');
-    if (label !== null) {
-      addQuestion('multipleChoice', label);
-    }
-  }}
-  className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
->
-  Add Multiple Choice Question
-</button>
+          <button
+            type="button"
+            onClick={() => {
+              const label = prompt('Enter label name for paragraph question');
+              if (label !== null) {
+                addQuestion('paragraph', label);
+              }
+            }}
+            className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+          >
+            Add small para Question
+          </button>
+          <button
+            type="button"
+            onClick={() => {
+              const label = prompt('Enter label name for large para question');
+              if (label !== null) {
+                addQuestion('largepara', label);
+              }
+            }}
+            className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+          >
+            Add large para Question
+          </button>
+          <button
+            type="button"
+            onClick={() => {
+              const label = prompt('Enter label name for multiple choice question');
+              if (label !== null) {
+                addQuestion('multipleChoice', label);
+              }
+            }}
+            className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+          >
+            Add Multiple Choice Question
+          </button>
         </div>
       </form>
     </div>
